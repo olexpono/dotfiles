@@ -1,3 +1,8 @@
+# GITHUB CODESPACES SPECIFIC
+DISABLE_AUTO_UPDATE=true
+DISABLE_UPDATE_PROMPT=true
+
+
 # Clone antidote if necessary.
 [[ -e ${ZDOTDIR:-~}/.antidote ]] ||
   git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
@@ -50,7 +55,7 @@ EOBUNDLE
 export GOPATH=$HOME/go
 export JAVA_HOME="/Library/Java/Home"
 
-export PATH=~/.rbenv/bin:~/.rbenv/shims:/usr/local/bin:/usr/local/opt/openjdk/bin:/usr/local/lib/node_modules/karma/bin:/opt/homebrew/bin:/opt/homebrew/opt/openjdk/bin:$PATH:/bin:/usr/sbin:/sbin:/usr/bin:~/go/bin:/opt/X11/bin:/usr/local/git/bin:/Applications/Postgres.app/Contents/Versions/13/bin
+export PATH=$PATH:/bin:/usr/sbin:/sbin:/usr/bin:~/go/bin:/usr/local/git/bin
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export VOLTA_HOME="$HOME/.volta"
