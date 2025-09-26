@@ -26,7 +26,7 @@ antidote bundle zsh-users/zsh-completions
 # Bundle oh-my-zsh libs and plugins with the 'path:' annotation
 antidote bundle getantidote/use-omz
 
-antidote bundle https://gist.github.com/tholex/07cefba1da02382f64f5 path:agnoster.zsh-theme
+antidote bundle https://gist.github.com/tholex/07cefba1da02382f64f5 path:agnoster-cs.zsh-theme
 
 # OR - you might want to load bundles with a HEREDOC.
 antidote bundle <<EOBUNDLE
@@ -122,7 +122,7 @@ red2=$'\e[0;35m'
 yellow=$'\e[0;33m'
 yellow2=$'\e[0;36m'
 reset="\e[0m"
-echo -e "\n  ${yellow}C O D E S${reset}\n    ${red}P A C E S${reset}\n${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${reset}"
+echo -e "\n  ${yellow}C O D E${reset}\n  ${red}S P A C E S${reset}\n${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${reset}"
 
 function lf() {
     if [ -z "$1" ]
