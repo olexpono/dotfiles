@@ -1,107 +1,156 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# Clone antidote if necessary.
+[[ -e ${ZDOTDIR:-~}/.antidote ]] ||
+  git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# Source antidote.
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="devcontainers"
+# Initialize antidote's dynamic mode, which changes `antidote bundle`
+# from static mode.
+source <(antidote init)
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME="devcontainers"
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# Bundle Fish-like auto suggestions just like you would with antigen.
+antidote bundle zsh-users/zsh-autosuggestions
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Bundle extra zsh completions too.
+antidote bundle zsh-users/zsh-completions
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Antidote doesn't have the 'use' command like antigen,
+# but instead you can accomplish the same via annotations:
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# Bundle oh-my-zsh libs and plugins with the 'path:' annotation
+antidote bundle getantidote/use-omz
 
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+antidote bundle https://gist.github.com/tholex/07cefba1da02382f64f5 path:agnoster.zsh-theme
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# OR - you might want to load bundles with a HEREDOC.
+antidote bundle <<EOBUNDLE
+    # Bundle syntax-highlighting
+    zsh-users/zsh-syntax-highlighting
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+    # Bundle OMZ plugins using annotations
+    ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+    ohmyzsh/ohmyzsh path:plugins/gh
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+    ohmyzsh/ohmyzsh path:lib
+    ohmyzsh/ohmyzsh path:plugins/git
+    ohmyzsh/ohmyzsh path:plugins/git-extras
+    ohmyzsh/ohmyzsh path:plugins/extract
+    ohmyzsh/ohmyzsh path:plugins/command-not-found
+    ohmyzsh/ohmyzsh path:plugins/isodate
+    ohmyzsh/ohmyzsh path:plugins/volta
+    ohmyzsh/ohmyzsh path:plugins/npm
+    ohmyzsh/ohmyzsh path:plugins/yarn
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+    # Bundle with a git URL
+    https://github.com/zsh-users/zsh-history-substring-search
+EOBUNDLE
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
+# PATH and HOME dirs
+export GOPATH=$HOME/go
+export JAVA_HOME="/Library/Java/Home"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+export PATH=~/.rbenv/bin:~/.rbenv/shims:/usr/local/bin:/usr/local/opt/openjdk/bin:/usr/local/lib/node_modules/karma/bin:/opt/homebrew/bin:/opt/homebrew/opt/openjdk/bin:$PATH:/bin:/usr/sbin:/sbin:/usr/bin:~/go/bin:/opt/X11/bin:/usr/local/git/bin:/Applications/Postgres.app/Contents/Versions/13/bin
+export PATH="$HOME/.cargo/bin:$PATH"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# GIT_EDITOR ETC
+export TERM=xterm-256color
+export EDITOR='nvim'
+export GIT_EDITOR='nvim'
+export DEFAULT_USER='olex'
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting)
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-autoload -U compinit && compinit
-source $ZSH/oh-my-zsh.sh
+# Use default port for postgres
+export PGPORT=5432
 
-# User configuration
+# GPG tty
+export GPG_TTY=$(tty)
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
+# export PGDATA=/usr/local/postgres
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-DISABLE_AUTO_UPDATE=true
-DISABLE_UPDATE_PROMPT=true
+
+# keybindings
+#
+# fn-left and fn-right (home & end)
+bindkey '\e[4~' end-of-line
+bindkey '\e[1~' beginning-of-line
+
+# aliases
+
+alias xcommit="git commit --no-gpg-sign"
+# alias nuke-reinstall="rm -rf node_modules/ && npm install && npm run build"
+alias nuke-reinstall="npm clean-install"
+
+alias branchpurge="git branch --merged | grep -v \"\*\" | xargs -n 1 git branch -d"
+
+alias ack="noglob ack"
+
+alias to="source ~/.zshrc"
+
+# tmux
+alias tl="tmux list-sessions"
+alias td="tmux detach"
+
+# git
+alias gg="git status"
+alias gb="git branch"
+alias gsm="git checkout main; git pull; git checkout -"
+# alias grm="git checkout main; git pull; git checkout -; git rebase -i main"
+
+function rootcommit() {
+  git log -1 &> /dev/null
+  if [ $? -eq 0 ];
+  then
+    echo 'No commit created, looks like this is a non-empty git repo.'
+  else
+    git reset *
+    git commit --allow-empty -m "Root commit"
+  fi;
+}
+
+function attach () { tmux attach -t "$@" }
+
+red=$'\e[0;31m'
+red2=$'\e[0;35m'
+yellow=$'\e[0;33m'
+yellow2=$'\e[0;36m'
+reset="\e[0m"
+echo -e "\n  ${yellow}C O D E S${reset}\n    ${red}P A C E S${reset}\n${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${reset}"
+
+function lf() {
+    if [ -z "$1" ]
+    then
+      ll
+    else
+      ls -1 **/*"$@"*
+    fi
+}
+function hgrep() {
+    if [ -z "$1" ]
+    then
+        fc -l 1
+    else
+        fc -l 1 | grep "$@"
+    fi
+}
+
+function bgrep() {
+    if [ -z "$1" ]
+    then
+      git branch
+    else
+      git branch | grep "$@"
+    fi
+}
+
+function poop() {
+  if [[ -z $2 ]]
+  then
+    ps -alx | grep -v grep | grep "$@" | awk '{print $2, "💩   ", $15, $16}'
+  else
+    ps -alx | awk '{print $2}'
+  fi
+}
+
