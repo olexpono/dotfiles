@@ -2,7 +2,10 @@
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
+alias spp="git pull && just post-pull && just dev-replace-web"
+alias webtests="just unit-test-project web-client"
 
+# ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
 [[ -e ${ZDOTDIR:-~}/.antidote ]] ||
   git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
@@ -86,11 +89,11 @@ bindkey '\e[1~' beginning-of-line
 
 alias xcommit="git commit --no-gpg-sign"
 # alias nuke-reinstall="rm -rf node_modules/ && npm install && npm run build"
-alias nuke-reinstall="npm clean-install"
+# alias nuke-reinstall="npm clean-install"
 
 alias branchpurge="git branch --merged | grep -v \"\*\" | xargs -n 1 git branch -d"
 
-alias ack="noglob ack"
+alias ack="noglob rg"
 
 alias to="source ~/.zshrc"
 
