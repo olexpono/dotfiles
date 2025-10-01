@@ -64,6 +64,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# RIPGREP
+export RIPGREP_CONFIG_PATH="$HOME/.rgconfig"
+
 # GIT_EDITOR ETC
 export TERM=xterm-256color
 export EDITOR='nvim'
