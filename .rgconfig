@@ -1,4 +1,14 @@
+# If a line has >9000 chars don't print it
+-M=9000
+
+# Show results in hidden files
 --hidden
+
+# Ignore something in obsidian
 --glob=!3rd-party-packages/ckeditor5-custom-build/build/
+
+# Ignore .git directory
 --glob=!.git/*
+
+# Only search case-sensitively if the input has cased characters
 --smart-case
