@@ -1,0 +1,4 @@
+--hidden
+--glob=!3rd-party-packages/ckeditor5-custom-build/build/
+--glob=!.git/*
+--smart-case
