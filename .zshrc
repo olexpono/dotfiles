@@ -4,6 +4,7 @@ DISABLE_UPDATE_PROMPT=true
 
 alias spp="git pull && just post-pull && just dev-replace-web"
 alias webtests="just unit-test-project web-client"
+alias webdev="just dev-start web-client"
 
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
