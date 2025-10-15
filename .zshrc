@@ -2,9 +2,23 @@
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
+alias ops=<<EOALIAS
+echo
+spp = "git pull && just post-pull && just dev-replace-web"
+wtests = "just unit-test-project web-client"
+wtc = "just turbo typecheck -F @vanta/web-client"
+wlint = "just turbo lint -F @vanta/web-client"
+webdev = "just dev-start web-client"
+sbook = "just dev-storybook"
+EOALIAS
+
 alias spp="git pull && just post-pull && just dev-replace-web"
-alias webtests="just unit-test-project web-client"
+alias wtests="just unit-test-project web-client"
+alias wtc="just turbo typecheck -F @vanta/web-client"
+alias wlint="just turbo lint -F @vanta/web-client"
+alias wlogs="just dev-watch-logs web-client"
 alias webdev="just dev-start web-client"
+alias sbook="just dev-storybook"
 
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
