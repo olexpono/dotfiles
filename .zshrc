@@ -84,8 +84,8 @@ export RIPGREP_CONFIG_PATH="$HOME/.rgconfig"
 
 # GIT_EDITOR ETC
 export TERM=xterm-256color
-export EDITOR='nvim'
-export GIT_EDITOR='nvim'
+export EDITOR='vim'
+export GIT_EDITOR='vim'
 export DEFAULT_USER='olex'
 
 # Use default port for postgres
