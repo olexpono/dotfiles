@@ -20,6 +20,41 @@ alias wlogs="just dev-watch-logs web-client"
 alias webdev="just dev-start web-client"
 alias sbook="just dev-storybook"
 
+mux() {
+    if ! command -v tmux &> /dev/null; then
+        echo "Error: tmux is not installed"
+        return 1
+    fi
+
+    if [ -n "$TMUX" ]; then
+        echo "Already inside a tmux session"
+        return 0
+    fi
+
+    # If an argument is provided, use it as the session name
+    local session_name="$1"
+
+    # Help
+    if [ "$session_name" = "-h" ] || [ "$session_name" = "--help" ]; then
+        echo "mux [session]: Entry point into tmux"
+        echo " $ mux            - connects to any running session, else creates [0]"
+        echo " $ mux [session]  - attempts to connect to [session] if exists, else starts it"
+        return 0
+    fi
+
+    if [ -n "$session_name" ]; then
+        # Try to attach to named session, create if it doesn't exist
+        tmux attach-session -t "$session_name" 2>/dev/null || tmux new-session -s "$session_name"
+    else
+        # No argument - attach to any existing session or create a new one
+        if tmux list-sessions &> /dev/null; then
+            tmux attach-session
+        else
+            tmux new-session
+        fi
+    fi
+}
+
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
 [[ -e ${ZDOTDIR:-~}/.antidote ]] ||
