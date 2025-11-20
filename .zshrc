@@ -56,6 +56,43 @@ mux() {
     fi
 }
 
+setup_codespace() {
+    target_dir=".olexpono"
+
+    # ensure we are in git repo
+    git rev-parse --is-inside-work-tree &> /dev/null || { echo "Not in a git repo"; exit 1; }
+
+    # if target_dir exists, print and exit
+    if [ -d "$target_dir" ]; then
+      echo "[$target_dir] - ready!"
+      exit 0
+    fi
+
+    echo "$target_dir" >> .git/info/exclude
+    echo "obsidian.code-workspace.json" >> .git/info/exclude
+
+    claude_instructions<<EOCLAUDE
+## Be concise
+
+In all interactions, be extremely concise and sacrifice grammar for the sake of concision.
+
+## Memory and scratch files
+
+Unless otherwise specified, all markdown files like plans or diagrams should go into the .olexpono directory. Look here for context on any in-flight work when making coding changes.
+
+## Examples
+
+When writing example strings for usage, please use various foods, recipes, and ingredients from global cuisine.
+EOCLAUDE
+
+    echo '{"folders":[{"name":"scratch","path":".olexpono"},{"name":"obsidian","path":"."}]}' >> obsidian.code-workspace.json
+    mkdir -p "$target_dir"
+
+    echo "Created $target_dir and added to .git/info/exclude"
+}
+
+setup_codespace
+
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
 [[ -e ${ZDOTDIR:-~}/.antidote ]] ||
