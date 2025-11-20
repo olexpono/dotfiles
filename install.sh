@@ -21,7 +21,7 @@ create_symlinks() {
     done
 }
 
-setup_ignore() {
+setup_codespace() {
     target_dir=".olexpono"
 
     # ensure we are in git repo
@@ -32,13 +32,18 @@ setup_ignore() {
       echo "$target_dir already exists, nothing to do"
       exit 0
     fi
+
     echo "$target_dir" >> .git/info/exclude
+    echo "obsidian.code-workspace.json" >> .git/info/exclude
+
+    echo '{"folders":[{"name":"scratch","path":".olexpono"},{"name":"obsidian","path":"."}]}' >> obsidian.code-workspace.json
     mkdir -p "$target_dir"
+
     echo "Created $target_dir and added to .git/info/exclude"
 }
 
 create_symlinks
-setup_ignore
+setup_codespace
 
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
