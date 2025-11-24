@@ -91,7 +91,7 @@ EOCLAUDE
     echo "Created $target_dir and added to .git/info/exclude"
 }
 
-setup_codespace
+# setup_codespace
 
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
