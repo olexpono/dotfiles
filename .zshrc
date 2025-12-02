@@ -10,7 +10,7 @@ wtc = "just turbo typecheck -F @vanta/web-client"
 wlint = "just turbo lint -F @vanta/web-client"
 wlogs = "just dev-watch-logs web"
 webdev = "just dev-start web-client"
-sbook = "just dev-storybook"
+sbook = "just dev-storybook-docs"
 EOALIAS
 
 alias spp="git pull && just post-pull && just dev-replace-web"
@@ -19,7 +19,7 @@ alias wtc="just turbo typecheck -F @vanta/web-client"
 alias wlint="just turbo lint -F @vanta/web-client"
 alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start web-client"
-alias sbook="just dev-storybook"
+alias sbook="just dev-storybook-docs"
 
 mux() {
     if ! command -v tmux &> /dev/null; then
