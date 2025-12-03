@@ -142,6 +142,9 @@ antidote bundle <<EOBUNDLE
     https://github.com/zsh-users/zsh-history-substring-search
 EOBUNDLE
 
+# COLORS / THEMING
+export LS_COLORS="${LS_COLORS}:ow=1;35"
+
 # PATH and HOME dirs
 export GOPATH=$HOME/go
 export JAVA_HOME="/Library/Java/Home"
