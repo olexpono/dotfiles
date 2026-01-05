@@ -142,6 +142,9 @@ antidote bundle <<EOBUNDLE
     https://github.com/zsh-users/zsh-history-substring-search
 EOBUNDLE
 
+# FIX TMUX ENCODING
+export LANG=en_US.UTF-8
+
 # COLORS / THEMING
 export LS_COLORS="${LS_COLORS}:ow=1;35"
 
