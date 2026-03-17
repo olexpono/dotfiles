@@ -260,3 +260,40 @@ function poop() {
   fi
 }
 
+codex_worktree() {
+  local name="${1:?usage: codex_worktree <worktree-name> [branch-name] [codex args...]}"
+  shift || return 1
+
+  local branch="${1:-}"
+  if [ -n "$branch" ]; then
+    shift || return 1
+  else
+    printf "Branch name: " >&2
+    IFS= read -r branch || return 1
+    [ -n "$branch" ] || {
+      echo "Branch name is required" >&2
+      return 1
+    }
+  fi
+
+  local repo_root repo_parent worktree_path
+  repo_root="$(git -C /workspaces/obsidian rev-parse --show-toplevel)" || return 1
+  repo_parent="$(dirname "$repo_root")"
+
+  worktree_path="$(
+    git -C "$repo_root" worktree list --porcelain |
+      awk -v branch="refs/heads/$branch" '
+
+  if [ -n "$worktree_path" ]; then
+    echo "$branch worktree already exists at $worktree_path"
+  else
+    worktree_path="$repo_parent/$name"
+    if git -C "$repo_root" show-ref --verify --quiet "refs/heads/$branch"; then
+      git -C "$repo_root" worktree add "$worktree_path" "$branch"
+    else
+      git -C "$repo_root" worktree add -b "$branch" "$worktree_path" HEAD
+    fi
+  fi
+
+  codex -C "$worktree_path" "$@"
+}
