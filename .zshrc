@@ -7,8 +7,8 @@ alias ops=<<EOALIAS
 echo
 spp = "git pull && just post-pull && just dev-replace-web"
 wtests = "just unit-test-project web-client"
-wtc = "just turbo typecheck -F @vanta/web-client"
-wlint = "just turbo lint -F @vanta/web-client"
+wtc = "just turbo typecheck -F @vanta/web-client --continue"
+wlint = "just turbo lint -F @vanta/web-client --continue"
 wlogs = "just dev-watch-logs web"
 webdev = "just dev-start web-client"
 sbook = "just dev-storybook-docs"
@@ -266,6 +266,7 @@ codex_worktree() {
 
   local branch="${1:-}"
   if [ -n "$branch" ]; then
+    echo "Error: branch name is required" >&2
     shift || return 1
   else
     printf "Branch name: " >&2
@@ -281,8 +282,12 @@ codex_worktree() {
   repo_parent="$(dirname "$repo_root")"
 
   worktree_path="$(
-    git -C "$repo_root" worktree list --porcelain |
-      awk -v branch="refs/heads/$branch" '
+      git -C "$repo_root" worktree list --porcelain |
+        awk -v branch="refs/heads/$branch" '
+          /^worktree / { path = substr($0, 10) }
+          /^branch / && $2 == branch { print path; exit }
+        '
+    )" || return 1
 
   if [ -n "$worktree_path" ]; then
     echo "$branch worktree already exists at $worktree_path"
