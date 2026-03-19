@@ -17,6 +17,7 @@ EOALIAS
 alias spp="git pull && just post-pull && just dev-replace-web"
 alias wtests="just unit-test-project web-client"
 alias wtc="just turbo typecheck -F @vanta/web-client"
+alias static="npx turbo run project-static-analysis --concurrency=16 --log-order=stream --continue --summarize"
 alias wlint="just turbo lint -F @vanta/web-client"
 alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start web-client"
