@@ -261,8 +261,8 @@ function poop() {
   fi
 }
 
-codex_worktree() {
-  local name="${1:?usage: codex_worktree <worktree-name> [branch-name] [codex args...]}"
+worktree() {
+  local name="${1:?usage: worktree <worktree-name> [branch-name] [args...]}"
   shift || return 1
 
   local branch="${1:-}"
@@ -300,6 +300,13 @@ codex_worktree() {
       git -C "$repo_root" worktree add -b "$branch" "$worktree_path" HEAD
     fi
   fi
+}
 
-  codex -C "$worktree_path" "$@"
+alpaca-token-files() {
+  local sourcejson="scripts/alpaca-semantic-tokens-playground/src/token-data-verbose.json"
+  if [ -n "$sourcejson" ]; then
+    jq -r --arg t "$1" '.files[$t][]' scripts/alpaca-semantic-tokens-playground/src/token-data-verbose.json
+  else
+    echo "No token data file found at $sourcejson ~ are you in an obsidian root?"
+  fi
 }
