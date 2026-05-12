@@ -58,6 +58,29 @@ mux() {
     fi
 }
 
+riptoken() {
+  emulate -L zsh
+  local token="$1"
+  if [[ -z "$token" ]]; then
+    echo "usage: riptoken <token>  (e.g. riptoken bg.neutral.default)" >&2
+    return 1
+  fi
+  local esc_dotted="${token//./\\.}"
+  local esc_dashed="${token//./-}"
+  local pattern="([^A-Za-z0-9_]${esc_dotted}([^A-Za-z0-9_.]|\$)|--alp-token-${esc_dashed}([^A-Za-z0-9_-]|\$))"
+  rg -c "$pattern" \
+    --type-add 'alptoken:*.{ts,tsx,css}' --type alptoken \
+    --glob '!**/theme-*.ts' \
+    --glob '!**/raw-tokens.ts' \
+    --glob '!**/semantic-tokens.tsx' \
+    --glob '!**/transform.ts' \
+    --glob '!**/transform.test.ts' \
+    --glob '!scripts/alpaca-semantic-tokens-playground/**' \
+    --glob '!**/*.test.*' \
+    --glob '!**/*.stories.*' \
+    | awk -F: 'BEGIN{t=0} {t+=$NF; print} END{print "---\ntotal:", t}'
+}
+
 setup_codespace() {
     target_dir=".olexpono"
 
