@@ -10,7 +10,7 @@ wtests = "just unit-test-project web-client"
 wtc = "just turbo typecheck -F @vanta/web-client --continue"
 wlint = "just turbo lint -F @vanta/web-client --continue"
 wlogs = "just dev-watch-logs web"
-webdev = "just dev-start web-client"
+webdev = "just dev-start-web"
 sbook = "just dev-storybook-docs"
 EOALIAS
 
