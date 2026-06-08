@@ -11,7 +11,7 @@ wtc = "just turbo typecheck -F @vanta/web-client --continue"
 wlint = "just turbo lint -F @vanta/web-client --continue"
 wlogs = "just dev-watch-logs web"
 webdev = "just dev-start-web"
-sbook = "just dev-storybook-docs"
+sbook = "just dev-storybook"
 EOALIAS
 
 alias spp="git pull && just post-pull && just dev-replace-web"
