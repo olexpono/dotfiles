@@ -5,14 +5,17 @@ export GITHUB_USER="olexpono"
 
 ops() {
   cat <<EOALIAS
-spp     = "git pull && just post-pull && just dev-replace-web"
-wtests  = "just unit-test-project web-client"
-wtc     = "just turbo typecheck -F @vanta/web-client --continue"
-wlint   = "just turbo lint -F @vanta/web-client --continue"
-wlogs   = "just dev-watch-logs web"
-webdev  = "just dev-start-web"
-webz    = "just dev-web-staging"
-sbook   = "just dev-storybook"
+Shorthand commands:
+
+  spp      Pull, post-pull, and replace web   (git pull && just post-pull && just dev-replace-web)
+  wtests   Run web-client unit tests          (just unit-test-project web-client)
+  wtc      Typecheck web-client               (just turbo typecheck -F @vanta/web-client --continue)
+  wlint    Lint web-client                    (just turbo lint -F @vanta/web-client --continue)
+  wlogs    Tail web dev logs                  (just dev-watch-logs web)
+  webdev   Start web dev server               (just dev-start-web)
+  webz     Start web against staging          (just dev-web-staging)
+  sbook    Start Storybook                    (just dev-storybook)
+  static   Run static analysis across project (npx turbo run project-static-analysis ...)
 EOALIAS
 }
 
@@ -251,6 +254,7 @@ yellow=$'\e[0;33m'
 yellow2=$'\e[0;36m'
 reset="\e[0m"
 echo -e "\n  ${yellow}C O D E${reset}\n  ${red}S P A C E S${reset}\n${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${reset}"
+echo -e "  Call '${yellow}ops${reset}' to list shorthand commands\n"
 
 function lf() {
     if [ -z "$1" ]
