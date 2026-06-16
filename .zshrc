@@ -3,16 +3,18 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 export GITHUB_USER="olexpono"
 
-alias ops=<<EOALIAS
-echo
-spp = "git pull && just post-pull && just dev-replace-web"
-wtests = "just unit-test-project web-client"
-wtc = "just turbo typecheck -F @vanta/web-client --continue"
-wlint = "just turbo lint -F @vanta/web-client --continue"
-wlogs = "just dev-watch-logs web"
-webdev = "just dev-start-web"
-sbook = "just dev-storybook"
+ops() {
+  cat <<EOALIAS
+spp     = "git pull && just post-pull && just dev-replace-web"
+wtests  = "just unit-test-project web-client"
+wtc     = "just turbo typecheck -F @vanta/web-client --continue"
+wlint   = "just turbo lint -F @vanta/web-client --continue"
+wlogs   = "just dev-watch-logs web"
+webdev  = "just dev-start-web"
+webz    = "just dev-web-staging"
+sbook   = "just dev-storybook"
 EOALIAS
+}
 
 alias spp="git pull && just post-pull && just dev-replace-web"
 alias wtests="just unit-test-project web-client"
@@ -20,8 +22,9 @@ alias wtc="just turbo typecheck -F @vanta/web-client"
 alias static="npx turbo run project-static-analysis --concurrency=16 --log-order=stream --continue --summarize"
 alias wlint="just turbo lint -F @vanta/web-client"
 alias wlogs="just dev-watch-logs web"
-alias webdev="just dev-start web-client"
-alias sbook="just dev-storybook-docs"
+alias webdev="just dev-start-web"
+alias webz="just dev-web-staging"
+alias sbook="just dev-storybook"
 
 mux() {
     if ! command -v tmux &> /dev/null; then
