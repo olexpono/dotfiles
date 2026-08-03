@@ -16,6 +16,7 @@ Shorthand commands:
   webz     Start web against staging          (just dev-web-staging)
   sbook    Start Storybook                    (just dev-storybook)
   static   Run static analysis across project (npx turbo run project-static-analysis ...)
+  cl       Claude Code in auto mode           (claude --permission-mode=auto)
 EOALIAS
 }
 
@@ -28,6 +29,7 @@ alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start-web"
 alias webz="just dev-web-staging"
 alias sbook="just dev-storybook"
+alias cl="claude --permission-mode=auto"
 
 mux() {
     if ! command -v tmux &> /dev/null; then
