@@ -150,7 +150,17 @@ antidote bundle zsh-users/zsh-completions
 # Bundle oh-my-zsh libs and plugins with the 'path:' annotation
 antidote bundle getantidote/use-omz
 
-antidote bundle https://gist.github.com/tholex/07cefba1da02382f64f5 path:agnoster-cs.zsh-theme
+# Theme now lives in this repo (was gist tholex/07cefba1da02382f64f5).
+# Raw: https://raw.githubusercontent.com/olexpono/dotfiles/main/themes/agnoster-cs.zsh-theme
+# antidote git-clones any URL, so it can't bundle a raw file: source it from
+# the repo, resolved by following this file's own symlink back to the checkout.
+_dotfiles_theme=${${(%):-%N}:A:h}/themes/agnoster-cs.zsh-theme
+if [[ -r $_dotfiles_theme ]]; then
+  source $_dotfiles_theme
+else
+  echo "warning: theme not found at $_dotfiles_theme (git pull the dotfiles checkout)" >&2
+fi
+unset _dotfiles_theme
 
 # OR - you might want to load bundles with a HEREDOC.
 antidote bundle <<EOBUNDLE
