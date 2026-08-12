@@ -3,6 +3,9 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 export GITHUB_USER="olexpono"
 
+# Root of this dotfiles checkout, found by following this file's own symlink.
+export DOTFILES_DIR=${${(%):-%N}:A:h}
+
 ops() {
   cat <<EOALIAS
 Shorthand commands:
@@ -17,6 +20,7 @@ Shorthand commands:
   sbook    Start Storybook                    (just dev-storybook)
   static   Run static analysis across project (npx turbo run project-static-analysis ...)
   cl       Claude Code in auto mode           (claude --permission-mode=auto)
+  bop      Group my open PRs by readiness     (pr-status.py [branch-prefix])
 EOALIAS
 }
 
@@ -30,6 +34,7 @@ alias webdev="just dev-start-web"
 alias webz="just dev-web-staging"
 alias sbook="just dev-storybook"
 alias cl="claude --permission-mode=auto"
+alias bop="python3 $DOTFILES_DIR/.local/bin/pr-status.py"
 
 mux() {
     if ! command -v tmux &> /dev/null; then
@@ -153,8 +158,8 @@ antidote bundle getantidote/use-omz
 # Theme now lives in this repo (was gist tholex/07cefba1da02382f64f5).
 # Raw: https://raw.githubusercontent.com/olexpono/dotfiles/main/themes/agnoster-cs.zsh-theme
 # antidote git-clones any URL, so it can't bundle a raw file: source it from
-# the repo, resolved by following this file's own symlink back to the checkout.
-_dotfiles_theme=${${(%):-%N}:A:h}/themes/agnoster-cs.zsh-theme
+# the repo instead.
+_dotfiles_theme=$DOTFILES_DIR/themes/agnoster-cs.zsh-theme
 if [[ -r $_dotfiles_theme ]]; then
   source $_dotfiles_theme
 else
