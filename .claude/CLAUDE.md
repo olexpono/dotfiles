@@ -19,7 +19,7 @@ When referring to a filename, output the full path from filesystem root.
 These take precedence over the repo's commit-and-pr skill and PR template where they conflict; repo mechanics still apply: draft PR, --body-file flow, security label.
 
 - Initial description: keep it terse and to the point.
-- End generated descriptions with<!-- claude-generated -->. Before updating any PR description, check for that marker; if it is absent, I edited the description, so leave it alone (and no need to mention that)
+- End generated descriptions with <!-- claude-generated -->. Before updating any PR description, check for that marker; if it is absent, I edited the description, so leave it alone (and no need to mention that)
 - "Changes" section: past tense "Added", "Removed", etc. at the start of the sentence
   - Use bullet points: "- Added X to some-script.ts".
   - Keep it short, only the main changes to guide the reviewer's attention
