@@ -4,7 +4,16 @@ DISABLE_UPDATE_PROMPT=true
 export GITHUB_USER="olexpono"
 
 # Root of this dotfiles checkout, found by following this file's own symlink.
+# Tools that rewrite ~/.zshrc (temp file + rename) replace the symlink with a
+# copy, which makes the self-resolution point at $HOME; fall back to the usual
+# checkout locations in that case.
 export DOTFILES_DIR=${${(%):-%N}:A:h}
+if [[ ! -d $DOTFILES_DIR/themes ]]; then
+  for _d in ~/dotfiles /workspaces/dotfiles; do
+    [[ -d $_d/themes ]] && export DOTFILES_DIR=${_d:A} && break
+  done
+  unset _d
+fi
 
 ops() {
   cat <<EOALIAS
