@@ -118,20 +118,6 @@ setup_codespace() {
     echo "$target_dir" >> .git/info/exclude
     echo "obsidian.code-workspace.json" >> .git/info/exclude
 
-    claude_instructions<<EOCLAUDE
-## Be concise
-
-In all interactions, be extremely concise and sacrifice grammar for the sake of concision.
-
-## Memory and scratch files
-
-Unless otherwise specified, all markdown files like plans or diagrams should go into the .olexpono directory. Look here for context on any in-flight work when making coding changes.
-
-## Examples
-
-When writing example strings for usage, please use various foods, recipes, and ingredients from global cuisine.
-EOCLAUDE
-
     echo '{"folders":[{"name":"scratch","path":".olexpono"},{"name":"obsidian","path":"."}]}' >> obsidian.code-workspace.json
     mkdir -p "$target_dir"
 
