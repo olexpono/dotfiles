@@ -28,6 +28,7 @@ Shorthand commands:
   webz     Start web against staging          (just dev-web-staging)
   sbook    Start Storybook                    (just dev-storybook)
   static   Run static analysis across project (npx turbo run project-static-analysis ...)
+  alpstat  Analyze + serve alpaca playground  (pnpm --filter @vanta/alpaca-static-analysis-playground generate && ... serve)
   cl       Claude Code in auto mode           (claude --permission-mode=auto)
   bop      Group my open PRs by readiness     (pr-status.py [branch-prefix])
 EOALIAS
@@ -37,6 +38,7 @@ alias spp="git pull && just post-pull && just dev-replace-web"
 alias wtests="just unit-test-project web-client"
 alias wtc="just turbo typecheck -F @vanta/web-client"
 alias static="npx turbo run project-static-analysis --concurrency=16 --log-order=stream --continue --summarize"
+alias alpstat="pnpm --filter @vanta/alpaca-static-analysis-playground generate && pnpm --filter @vanta/alpaca-static-analysis-playground serve"
 alias wlint="just turbo lint -F @vanta/web-client"
 alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start-web"
