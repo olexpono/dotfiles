@@ -1,0 +1,19 @@
+.zshrc
+  s_11f8f33c4e4b35::t_c0f3a9a9c43d36 129-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "812a5ab43dadd342096361135d92e40fb59a2a6e",
+  "prompts": {},
+  "sessions": {
+    "s_11f8f33c4e4b35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89262a8e-ba2e-4ba5-8d84-f16eda61dc0a",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
