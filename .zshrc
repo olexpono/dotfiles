@@ -126,7 +126,15 @@ setup_codespace() {
     echo "Created $target_dir and added to .git/info/exclude"
 }
 
-# setup_codespace
+ensure_olexpono_excluded() {
+  [[ "$PWD" == "/workspaces/obsidian" ]] || return 0
+  git rev-parse --is-inside-work-tree &> /dev/null || return 0
+
+  local exclude_file
+  exclude_file="$(git rev-parse --git-dir)/info/exclude"
+  grep -qxF ".olexpono" "$exclude_file" 2>/dev/null || echo ".olexpono" >> "$exclude_file"
+}
+ensure_olexpono_excluded
 
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
