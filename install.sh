@@ -20,6 +20,19 @@ create_symlinks() {
 
 create_symlinks
 
+link_agents_md() {
+    script_dir=$(dirname "$(readlink -f "$0")")
+
+    rm -rf ~/AGENTS.md
+    ln -s "$script_dir/AGENTS.md" ~/AGENTS.md
+
+    mkdir -p ~/.claude
+    rm -rf ~/.claude/CLAUDE.md
+    ln -s "$script_dir/AGENTS.md" ~/.claude/CLAUDE.md
+}
+
+link_agents_md
+
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
