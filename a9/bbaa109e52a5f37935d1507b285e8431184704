@@ -1,0 +1,19 @@
+install.sh
+  s_11f8f33c4e4b35::t_c3ca4dc5c0e2cb 23-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "a9bbaa109e52a5f37935d1507b285e8431184704",
+  "prompts": {},
+  "sessions": {
+    "s_11f8f33c4e4b35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89262a8e-ba2e-4ba5-8d84-f16eda61dc0a",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
