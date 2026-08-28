@@ -2,6 +2,10 @@
 
 sudo chsh "$(id -un)" --shell "/usr/bin/zsh"
 
+if ! command -v nvim &> /dev/null; then
+    sudo apt-get update && sudo apt-get install -y neovim
+fi
+
 create_symlinks() {
     # Get the directory in which this script lives.
     script_dir=$(dirname "$(readlink -f "$0")")
