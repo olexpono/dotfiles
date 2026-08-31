@@ -25,4 +25,10 @@ These take precedence over the repo's commit-and-pr skill and PR template where 
   - Keep it short, only the main changes to guide the reviewer's attention
 - "Motivation": If the WHY has not been discussed in the session creating the PR, keep this section blank. If there is a relevent JIRA ticket, always link it here on its own line.
 - "Testing" section: leave empty unless you already have screenshots pulled, or were specifically instructed to add artifacts to this section.
+- "Deployment" section: If no feature flags involved, write just "No feature flag"; if this PR adds or removes a feature flag, write "(Adds|Removes) feature flag {flag name}"
+- "AI Model used": just write the model number like "Claude Opus 5.0"
 - Other sections - keep every '##' header but leave the bodies empty.
+
+## Alpaca Sweep PR's
+
+When pushing a PR that started as an alpaca sweep, add the "screenshot-this" label to newly-created PR's
