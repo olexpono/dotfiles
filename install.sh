@@ -37,6 +37,16 @@ link_agents_md() {
 
 link_agents_md
 
+link_nvim() {
+    script_dir=$(dirname "$(readlink -f "$0")")
+
+    mkdir -p ~/.config
+    rm -rf ~/.config/nvim
+    ln -s "$script_dir/.config/nvim" ~/.config/nvim
+}
+
+link_nvim
+
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
