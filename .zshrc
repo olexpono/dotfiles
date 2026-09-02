@@ -28,7 +28,7 @@ Shorthand commands:
   webz     Start web against staging          (just dev-web-staging)
   sbook    Start Storybook                    (just dev-storybook)
   static   Run static analysis across project (npx turbo run project-static-analysis ...)
-  alpstat  Analyze + serve alpaca playground  (pnpm --filter @vanta/alpaca-static-analysis-playground generate && ... serve)
+  alpstat  Analyze + serve alpaca playground  (site:install if needed, then generate && serve)
   cl       Claude Code in auto mode           (claude --permission-mode=auto)
   bop      Group my open PRs by readiness     (pr-status.py [branch-prefix])
 EOALIAS
@@ -38,7 +38,6 @@ alias spp="git pull && just post-pull && just dev-replace-web"
 alias wtests="just unit-test-project web-client"
 alias wtc="just turbo typecheck -F @vanta/web-client"
 alias static="npx turbo run project-static-analysis --concurrency=16 --log-order=stream --continue --summarize"
-alias alpstat="pnpm --filter @vanta/alpaca-static-analysis-playground generate && pnpm --filter @vanta/alpaca-static-analysis-playground serve"
 alias wlint="just turbo lint -F @vanta/web-client"
 alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start-web"
@@ -46,6 +45,24 @@ alias webz="just dev-web-staging"
 alias sbook="just dev-storybook"
 alias cl="claude --permission-mode=auto"
 alias bop="python3 $DOTFILES_DIR/.local/bin/pr-status.py"
+
+# The playground's minisite lives outside the pnpm workspace, so `pnpm install`
+# never fetches its deps; install them on first run, then generate and serve.
+# alpstat was an alias until 2026-09; zsh expands aliases at parse time, so
+# re-sourcing into a shell that still has it fails without this unalias.
+unalias alpstat 2>/dev/null
+alpstat() {
+  local pkg=@vanta/alpaca-static-analysis-playground
+  local site="$(git rev-parse --show-toplevel 2>/dev/null)/scripts/alpaca-static-analysis-playground/site"
+  if [[ ! -d $site ]]; then
+    echo "alpstat: run from inside the teal checkout (no $site)" >&2
+    return 1
+  fi
+  if [[ ! -d $site/node_modules ]]; then
+    pnpm --filter $pkg site:install || return 1
+  fi
+  pnpm --filter $pkg generate && pnpm --filter $pkg serve
+}
 
 mux() {
     if ! command -v tmux &> /dev/null; then
