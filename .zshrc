@@ -271,6 +271,9 @@ alias td="tmux detach"
 # git
 alias gg="git status"
 
+# gb was an alias until 2026-09; zsh expands aliases at parse time, so
+# re-sourcing into a shell that still has it fails without this unalias.
+unalias gb 2>/dev/null
 gb() {
   emulate -L zsh
   local -A wt_fg=(
