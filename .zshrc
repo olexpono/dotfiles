@@ -270,7 +270,7 @@ alias td="tmux detach"
 
 # git
 alias gg="git status"
-# alias gb="git for-each-ref --format='%(refname:short) %(worktreepath)' refs/heads"
+
 gb() {
   emulate -L zsh
   local -A wt_fg=(
@@ -283,7 +283,7 @@ gb() {
   )
   local default_fg=147
 
-  git rev-parse --is-inside-work-tree &>/dev/null || { echo "gb2: not a git repo" >&2; return 1 }
+  git rev-parse --is-inside-work-tree &>/dev/null || { echo "gb: not a git repo" >&2; return 1 }
 
   # branch -> worktree path, for branches checked out in some worktree
   local -A active_wt
