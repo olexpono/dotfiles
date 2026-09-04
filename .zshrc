@@ -28,7 +28,7 @@ Shorthand commands:
   webz     Start web against staging          (just dev-web-staging)
   sbook    Start Storybook                    (just dev-storybook)
   static   Run static analysis across project (npx turbo run project-static-analysis ...)
-  alpstat  Analyze + serve alpaca playground  (site:install if needed, then generate && serve)
+  alpstat  Analyze + serve alpaca playground  (installs/generates as needed; -r to regenerate)
   cl       Claude Code in auto mode           (claude --permission-mode=auto)
   bop      Group my open PRs by readiness     (pr-status.py [branch-prefix])
 EOALIAS
@@ -46,22 +46,27 @@ alias sbook="just dev-storybook"
 alias cl="claude --permission-mode=auto"
 alias bop="python3 $DOTFILES_DIR/.local/bin/pr-status.py"
 
-# The playground's minisite lives outside the pnpm workspace, so `pnpm install`
-# never fetches its deps; install them on first run, then generate and serve.
-# alpstat was an alias until 2026-09; zsh expands aliases at parse time, so
-# re-sourcing into a shell that still has it fails without this unalias.
 unalias alpstat 2>/dev/null
 alpstat() {
   local pkg=@vanta/alpaca-static-analysis-playground
-  local site="$(git rev-parse --show-toplevel 2>/dev/null)/scripts/alpaca-static-analysis-playground/site"
+  local root; root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+  local dir=$root/scripts/alpaca-static-analysis-playground
+  local site=$dir/site
+
   if [[ ! -d $site ]]; then
-    echo "alpstat: run from inside the teal checkout (no $site)" >&2
+    print -u2 "alpstat: run from inside the teal checkout (no $site)"
     return 1
   fi
-  if [[ ! -d $site/node_modules ]]; then
-    pnpm --filter $pkg site:install || return 1
+
+  [[ $1 == -r || $1 == --regen ]] && rm -f $site/public/*.json
+
+  if [[ ! -x $dir/node_modules/.bin/tsx ]]; then
+    print -u2 "alpstat: workspace deps missing — run 'just post-pull' first"
+    return 1
   fi
-  pnpm --filter $pkg generate && pnpm --filter $pkg serve
+  [[ -d $site/node_modules ]]           || pnpm --filter $pkg site:install || return 1
+  [[ -f $site/public/components.json ]] || pnpm --filter $pkg generate     || return 1
+  pnpm --filter $pkg serve
 }
 
 mux() {
