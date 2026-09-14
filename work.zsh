@@ -103,7 +103,6 @@ worktree() {
 
   local branch="${1:-}"
   if [ -n "$branch" ]; then
-    echo "Error: branch name is required" >&2
     shift || return 1
   else
     printf "Branch name: " >&2
@@ -136,6 +135,28 @@ worktree() {
       git -C "$repo_root" worktree add -b "$branch" "$worktree_path" HEAD
     fi
   fi
+}
+
+# The banner above advertises `ops`; list what this file actually defines.
+ops() {
+  print -P "\n%F{yellow}Shorthand commands%f (${DOTFILES_DIR:-~/dotfiles}/work.zsh)\n"
+  awk '
+    /^alias [a-zA-Z0-9_-]+=/ {
+      split($0, a, "=")
+      sub(/^alias /, "", a[1])
+      cmd = $0
+      sub(/^alias [a-zA-Z0-9_-]+=/, "", cmd)
+      gsub(/^["'"'"']|["'"'"']$/, "", cmd)
+      printf "  %-14s %s\n", a[1], cmd
+      next
+    }
+    /^[a-zA-Z0-9_-]+\(\) \{/ {
+      name = $1
+      sub(/\(\).*/, "", name)
+      printf "  %-14s (function)\n", name
+    }
+  ' "${DOTFILES_DIR:-$HOME/dotfiles}/work.zsh"
+  print ""
 }
 
 alpaca-token-files() {

@@ -12,7 +12,11 @@ fi
 
 # work.zsh sets DISABLE_AUTO_UPDATE etc, so it must load before the
 # antidote/oh-my-zsh bundles below.
-[[ -n "$CODESPACES" ]] && source $DOTFILES_DIR/work.zsh
+# $CODESPACES is only set in real Codespaces, not in a local/remote devcontainer,
+# so also key off the checkout work.zsh is hard-coded against.
+if [[ -n "$CODESPACES" || -d /workspaces/obsidian ]]; then
+  source $DOTFILES_DIR/work.zsh
+fi
 source $DOTFILES_DIR/personal.zsh
 
 # ----- USUAL zshrc ------- #
