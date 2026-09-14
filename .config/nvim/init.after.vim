@@ -52,17 +52,17 @@ highlight SignColumn ctermfg=12 ctermbg=235 ctermfg=yellow guibg=#1d1d1d guifg=#
 highlight SignColumn ctermfg=12 ctermbg=235 ctermfg=yellow guibg=#1d1d1d guifg=#727272
 " highlight Todo ctermbg=235 ctermfg=magenta guibg=#282828 guifg=#EE8855
 highlight LineNr term=underline ctermfg=darkcyan ctermbg=0 guifg=#454b45 guibg=#1d1d1d
-highlight String ctermfg=121 gui=none guifg=#96d456
+" highlight String ctermfg=121 gui=none guifg=#96d456
 highlight VertSplit cterm=reverse ctermfg=235 ctermbg=233 gui=none guifg=#333344 guibg=#282828
 highlight StatusLine cterm=bold ctermfg=230 ctermbg=238 gui=none guifg=#a5a8f2 guibg=#333344
 highlight StatusLineNC ctermfg=103 ctermbg=235 guifg=#a4a2b2 guibg=#333344
-highlight Search term=reverse ctermfg=1 ctermbg=237 guibg=#7aaa50 guifg=#121212
-highlight Directory term=bold ctermfg=11 guifg=#f09865
-highlight jsRegexpGroup term=bold ctermfg=11 guifg=#f09865
-highlight jsRegexpString term=bold ctermfg=11 guifg=#f09865
-highlight Cursor guibg=#eeeeee guifg=#357095
-highlight ErrorMsg term=standout ctermfg=0 ctermbg=4 guifg=#f3f3f3 guibg=coral3
-highlight Comment guifg=#da75aa ctermfg=221
+" highlight Search term=reverse ctermfg=1 ctermbg=237 guibg=#7aaa50 guifg=#121212
+" highlight Directory term=bold ctermfg=11 guifg=#f09865
+" highlight jsRegexpGroup term=bold ctermfg=11 guifg=#f09865
+" highlight jsRegexpString term=bold ctermfg=11 guifg=#f09865
+" highlight Cursor guibg=#eeeeee guifg=#357095
+" highlight ErrorMsg term=standout ctermfg=0 ctermbg=4 guifg=#f3f3f3 guibg=coral3
+" highlight Comment guifg=#da75aa ctermfg=221
 highlight Special ctermfg=2 ctermfg=yellow guifg=#EDD56C
 highlight Statement ctermfg=2 ctermfg=yellow guifg=#EDD56C
 highlight Identifier ctermfg=yellow guifg=#FBC496 ctermfg=darkred
