@@ -10,11 +10,8 @@ if [[ ! -d $DOTFILES_DIR/themes ]]; then
   unset _d
 fi
 
-# Work vs personal shell config, split out of this file 2026-09.
-# work.zsh: only for the GitHub Codespaces work environment (the
-# obsidian/Vanta monorepo) — sets DISABLE_AUTO_UPDATE etc, so it must load
-# before the antidote/oh-my-zsh bundles below.
-# personal.zsh: generic aliases/functions, safe on any machine.
+# work.zsh sets DISABLE_AUTO_UPDATE etc, so it must load before the
+# antidote/oh-my-zsh bundles below.
 [[ -n "$CODESPACES" ]] && source $DOTFILES_DIR/work.zsh
 source $DOTFILES_DIR/personal.zsh
 
