@@ -17,7 +17,6 @@ fi
 if [[ -n "$CODESPACES" || -d /workspaces/obsidian ]]; then
   source $DOTFILES_DIR/work.zsh
 fi
-source $DOTFILES_DIR/personal.zsh
 
 # ----- USUAL zshrc ------- #
 # Clone antidote if necessary.
@@ -77,6 +76,9 @@ antidote bundle <<EOBUNDLE
     # Bundle with a git URL
     https://github.com/zsh-users/zsh-history-substring-search
 EOBUNDLE
+
+# Load personal aliases and functions after plugins so they take precedence.
+source $DOTFILES_DIR/personal.zsh
 
 # FIX TMUX ENCODING
 export LANG=en_US.UTF-8
