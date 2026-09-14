@@ -1,14 +1,8 @@
-# Personal shell config: general-purpose aliases/functions with no tie to a
-# specific work repo. Safe to use on any machine (mac or linux) and in any
-# git repo.
-#
-# NOT YET SOURCED from .zshrc — this is step one of splitting .zshrc's
-# generic bits out of the shared file. See work.zsh for the work-only
-# counterpart.
-
 export BRANCH_PREFIX=olex
 
-# ----- aliases -----
+[[ -d /opt/homebrew/bin ]] && export PATH="/opt/homebrew/bin:$PATH"
+[[ -d /usr/local/bin ]] && export PATH="/usr/local/bin:$PATH"
+
 alias cl="claude --permission-mode=auto"
 alias bop="python3 $DOTFILES_DIR/.local/bin/pr-status.py"
 
@@ -19,8 +13,9 @@ alias to="source ~/.zshrc"
 alias tl="tmux list-sessions"
 alias td="tmux detach"
 alias gg="git status"
-
-# ----- functions -----
+alias gsm="git checkout main; git pull; git checkout -"
+alias nuke-reinstall="npm clean-install"
+alias pip="nocorrect pip"
 
 mux() {
     if ! command -v tmux &> /dev/null; then
@@ -62,9 +57,6 @@ mux() {
 unalias gb 2>/dev/null
 gb() {
   emulate -L zsh
-  # Color names below (teal/blue/magenta/orange/lime/purple) match worktree
-  # naming conventions from a specific work repo — harmless elsewhere, since
-  # any path that doesn't match one just falls back to $default_fg.
   local -A wt_fg=(
     teal    23
     blue    17
@@ -169,3 +161,45 @@ function poop() {
     ps -alx | awk '{print $2}'
   fi
 }
+
+function signit() {
+  if [[ `git log --format='%ae' -1` =~ (tholex|olex.pono)@gmail.com ]];
+  then
+    git commit --amend --author="Olex Ponomarenko <olex.pono@gmail.com>" --no-edit -n -S
+  else
+    echo 'Skip? commit by' `git log --format='%ae' -1`
+  fi;
+}
+
+# Set Finder label color
+label(){
+  if [ $# -lt 2 ]
+  then
+    echo "USAGE: label [0-7] file1 [file2] ..."
+    echo "Sets the Finder label (color) for files"
+    echo "Default colors:"
+    echo " 0  No color"
+    echo " 1  Orange"
+    echo " 2  Red"
+    echo " 3  Yellow"
+    echo " 4  Blue"
+    echo " 5  Purple"
+    echo " 6  Green"
+    echo " 7  Gray"
+  else
+    osascript - "$@" << EOF
+    on run argv
+        set labelIndex to (item 1 of argv as number)
+        repeat with i from 2 to (count of argv)
+          tell application "Finder"
+              set theFile to POSIX file (item i of argv) as alias
+              set label index of theFile to labelIndex
+          end tell
+        end repeat
+    end run
+EOF
+  fi
+}
+
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+[[ -d "$HOME/code/reduct" ]] && source $DOTFILES_DIR/music-tools.zsh

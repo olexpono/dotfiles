@@ -1,15 +1,3 @@
-# Work-only shell config: specific to the Vanta/"obsidian" monorepo and its
-# GitHub Codespaces dev environment. Doesn't make sense on a personal machine
-# that never checks that repo out.
-#
-# NOT YET SOURCED from .zshrc — this is step one of splitting .zshrc's
-# work-specific bits out of the shared file. See personal.zsh for the
-# generic counterpart.
-
-# ----- Codespaces bootstrap -----
-# These lines were originally under a "GITHUB CODESPACES SPECIFIC" comment
-# in .zshrc. GITHUB_USER itself isn't inherently work-only, but it currently
-# only gets set because Codespaces is only ever used for work.
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 export GITHUB_USER="olexpono"
@@ -22,7 +10,6 @@ reset="\e[0m"
 echo -e "\n  ${yellow}C O D E${reset}\n  ${red}S P A C E S${reset}\n${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${red}-${red2}-${yellow2}-${red2}-${red}-${yellow}-${reset}"
 echo -e "  Call '${yellow}ops${reset}' to list shorthand commands\n"
 
-# ----- shorthand aliases (justfile/turbo commands in the web monorepo) -----
 alias spp="git pull && just post-pull && just dev-replace-web"
 alias wtests="just unit-test-project web-client"
 alias wtc="just turbo typecheck -F @vanta/web-client"
@@ -32,8 +19,6 @@ alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start-web"
 alias webz="just dev-web-staging"
 alias sbook="just dev-storybook"
-
-# ----- functions -----
 
 unalias alpstat 2>/dev/null
 alpstat() {
