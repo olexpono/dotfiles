@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -172,6 +173,53 @@ TITLES = {
     4: "[4] Draft — has open code comments",
 }
 
+RESET = "\033[0m"
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+CYAN = "\033[36m"
+
+
+def styled(text: str, color: str) -> str:
+    if not sys.stdout.isatty() or "NO_COLOR" in os.environ:
+        return text
+    return f"{BOLD}{color}{text}{RESET}"
+
+
+def review_status(pull: dict) -> tuple[str, str]:
+    if pull["isDraft"]:
+        return "Draft", CYAN
+    if pull["reviewDecision"] == "APPROVED":
+        return "Approved", GREEN
+    if pull["reviewDecision"] == "CHANGES_REQUESTED":
+        return "Changes Needed", RED
+    return "In Review", YELLOW
+
+
+def ci_status(checks: list[dict]) -> tuple[str, str]:
+    failing = sum(c["bucket"] in ("fail", "cancel") for c in checks)
+    pending = sum(c["bucket"] == "pending" for c in checks)
+    if failing:
+        return f"CI: failing ({failing})", RED
+    if pending:
+        return f"CI: pending ({pending})", YELLOW
+    return "CI: passing", GREEN
+
+
+def conflict_status(pull: dict) -> tuple[str, str]:
+    if pull["mergeable"] == "MERGEABLE":
+        return "No conflicts", GREEN
+    if pull["mergeable"] == "CONFLICTING":
+        return "Has conflicts", RED
+    return "Conflicts unknown", YELLOW
+
+
+def styled_pr_url(pull: dict) -> str:
+    url = pull["url"]
+    number = str(pull["number"])
+    return url.removesuffix(number) + styled(number, CYAN)
+
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -213,7 +261,7 @@ def main(argv: list[str] | None = None) -> int:
 
     resolve_mergeable(repo, pulls)
 
-    needs_checks = [p["number"] for p in pulls if not p["isDraft"]]
+    needs_checks = [p["number"] for p in pulls]
     with ThreadPoolExecutor(max_workers=8) as pool:
         checks = dict(
             zip(needs_checks, pool.map(lambda n: fetch_checks(repo, n), needs_checks))
@@ -231,12 +279,24 @@ def main(argv: list[str] | None = None) -> int:
     for bucket in (1, 2, 3, 4):
         entries = buckets[bucket]
         print(f"{TITLES[bucket]} — {len(entries)}")
-        for pull, reasons in entries:
-            team = pull["title"].split("(")[-1].rstrip(")")
-            print(f"  #{pull['number']}  {team}")
-            print(f"      {pull['url']}")
-            for reason in reasons:
-                print(f"      · {reason}")
+        for pull, _reasons in entries:
+            status, status_color = review_status(pull)
+            ci, ci_color = ci_status(checks.get(pull["number"], []))
+            conflicts, conflicts_color = conflict_status(pull)
+            threads = open_threads(pull)
+            status_branch = "├─" if threads else "└─"
+            print(f"→ {styled_pr_url(pull)} {pull['title']}")
+            print(
+                f"{status_branch} {styled(status, status_color)} · "
+                f"{styled(ci, ci_color)} · "
+                f"{styled(conflicts, conflicts_color)}"
+            )
+            if threads:
+                count = len(threads)
+                url = thread_url(threads[0])
+                label = f"{count} unresolved"
+                comment = f"└─ {styled(label, RED)}"
+                print(f"{comment}: {url}" if url else comment)
         print()
     return 0
 
