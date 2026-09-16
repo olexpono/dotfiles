@@ -1,0 +1,19 @@
+.local/bin/pr-status.py
+  s_62ac8004229dc1::t_2161f27eaa6b34 17,176-222,264,282-299
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "079e7ca86b3ab065212afadd5d3c6ea36a2ec398",
+  "prompts": {},
+  "sessions": {
+    "s_62ac8004229dc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a598-d49c-7a40-a08f-4fb3aa4491b0",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
