@@ -34,13 +34,14 @@ query($q: String!, $endCursor: String) {
         isDraft
         mergeable
         reviewDecision
+        author { login }
         reviewThreads(first: 100) {
           nodes {
             isResolved
             isOutdated
             path
             line
-            comments(first: 1) { nodes { url } }
+            comments(first: 1) { nodes { url author { login } } }
           }
         }
       }
@@ -123,7 +124,22 @@ def fetch_checks(repo: str, number: int) -> list[dict]:
 
 
 def open_threads(pull: dict) -> list[dict]:
-    return [t for t in pull["reviewThreads"]["nodes"] if not t["isResolved"]]
+    pull_author = pull.get("author") or {}
+    author_login = pull_author.get("login")
+    return [
+        thread
+        for thread in pull["reviewThreads"]["nodes"]
+        if not thread["isResolved"]
+        and not thread_started_by(thread, author_login)
+    ]
+
+
+def thread_started_by(thread: dict, login: str | None) -> bool:
+    comments = thread["comments"]["nodes"]
+    if not login or not comments:
+        return False
+    comment_author = comments[0].get("author") or {}
+    return comment_author.get("login") == login
 
 
 def thread_url(thread: dict) -> str | None:
