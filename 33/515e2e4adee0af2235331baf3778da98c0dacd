@@ -1,0 +1,21 @@
+.zshrc
+  s_28bcbd4d4014c5::t_395c92a533d5f1 80-88,128-132
+Brewfile
+  s_28bcbd4d4014c5::t_a78d291941cccb 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "33515e2e4adee0af2235331baf3778da98c0dacd",
+  "prompts": {},
+  "sessions": {
+    "s_28bcbd4d4014c5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c4d2-a11d-7c73-824b-84dfa2efed1c",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
