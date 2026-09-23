@@ -30,9 +30,6 @@ source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 # from static mode.
 source <(antidote init)
 
-# Bundle Fish-like auto suggestions just like you would with antigen.
-antidote bundle zsh-users/zsh-autosuggestions
-
 # Bundle extra zsh completions too.
 antidote bundle zsh-users/zsh-completions
 
@@ -80,6 +77,15 @@ EOBUNDLE
 # Load personal aliases and functions after plugins so they take precedence.
 source $DOTFILES_DIR/personal.zsh
 
+# Predictive, directory-aware command suggestions.
+if command -v deja >/dev/null 2>&1; then
+  if [[ -r $HOME/.local/share/deja/init.zsh ]]; then
+    source $HOME/.local/share/deja/init.zsh
+  else
+    eval "$(deja init zsh)"
+  fi
+fi
+
 # FIX TMUX ENCODING
 export LANG=en_US.UTF-8
 
@@ -119,3 +125,8 @@ export GPG_TTY=$(tty)
 # fn-left and fn-right (home & end)
 bindkey '\e[4~' end-of-line
 bindkey '\e[1~' beginning-of-line
+
+# Smarter directory jumping with `z`.
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
