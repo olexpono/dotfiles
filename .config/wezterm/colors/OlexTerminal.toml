@@ -1,0 +1,31 @@
+[colors]
+  ansi = [
+      "#363636",
+      "#ff8278",
+      "#9ae077",
+      "#ebd883",
+      "#77bee0",
+      "#e6b2f5",
+      "#fac495",
+      "#f2f2f2",
+  ]
+  background = "#343434"
+  brights = [
+      "#707070",
+      "#ff695e",
+      "#8adf61",
+      "#edd56c",
+      "#4fb5e5",
+      "#df8af7",
+      "#f8b360",
+      "#d3d3d3",
+  ]
+  foreground = "#ececdf"
+
+[colors.tab_bar]
+  background = "#252525"
+
+[metadata]
+  aliases = []
+  author = "Olex Ponomarenko"
+  name = "OlexTerminal"

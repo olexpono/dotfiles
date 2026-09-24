@@ -70,6 +70,16 @@ link_nvim() {
 
 link_nvim
 
+link_wezterm() {
+    script_dir=$(dirname "$(readlink -f "$0")")
+
+    mkdir -p ~/.config
+    rm -rf ~/.config/wezterm
+    ln -s "$script_dir/.config/wezterm" ~/.config/wezterm
+}
+
+link_wezterm
+
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
