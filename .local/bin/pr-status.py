@@ -7,7 +7,7 @@ Categories:
   [3] Draft clean — draft with no unresolved code comments
   [4] Draft w/ comments — draft with unresolved code comments
 
-Usage: pr-status.py [branch-prefix] [--repo OWNER/NAME] [--author LOGIN]
+Usage: pr-status.py [branch-prefix] [--repo OWNER/NAME] [--author LOGIN] [-vv]
 """
 
 from __future__ import annotations
@@ -31,6 +31,9 @@ query($q: String!, $endCursor: String) {
         number
         title
         url
+        updatedAt
+        headRefName
+        baseRefName
         isDraft
         mergeable
         reviewDecision
@@ -254,7 +257,33 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--author", default="@me", help="PR author to filter on (default: @me)"
     )
+    parser.add_argument(
+        "-vv",
+        dest="agent_verbose",
+        action="store_true",
+        help="show agent details and order each category by oldest activity",
+    )
     return parser.parse_args(argv)
+
+
+def print_agent_details(pull: dict, reasons: list[str], checks: list[dict]) -> None:
+    print(f"  branch: {pull['headRefName']} → {pull['baseRefName']}")
+    print(f"  last activity: {pull['updatedAt']}")
+    if reasons:
+        print("  blockers:")
+        for reason in reasons:
+            lines = reason.splitlines()
+            print(f"    - {lines[0]}")
+            for line in lines[1:]:
+                print(f"      {line.strip()}")
+
+    relevant_checks = [
+        check for check in checks if check["bucket"] in ("fail", "cancel", "pending")
+    ]
+    if relevant_checks:
+        print("  check details:")
+        for check in sorted(relevant_checks, key=lambda check: check["name"]):
+            print(f"    - {check['bucket']}: {check['name']} — {check['link']}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -288,14 +317,18 @@ def main(argv: list[str] | None = None) -> int:
         bucket, reasons = categorize(pull, checks.get(pull["number"], []))
         buckets[bucket].append((pull, reasons))
 
-    print(
-        f"{len(pulls)} open PR(s) in {repo} "
-        f"on branches starting with '{args.prefix}'\n"
-    )
-    for bucket in (1, 2, 3, 4):
+    if not args.agent_verbose:
+        print(
+            f"{len(pulls)} open PR(s) in {repo} "
+            f"on branches starting with '{args.prefix}'\n"
+        )
+    visible_buckets = (2, 3) if args.agent_verbose else (1, 2, 3, 4)
+    for bucket in visible_buckets:
         entries = buckets[bucket]
+        if args.agent_verbose:
+            entries = sorted(entries, key=lambda entry: entry[0]["updatedAt"])
         print(f"{TITLES[bucket]} — {len(entries)}")
-        for pull, _reasons in entries:
+        for pull, reasons in entries:
             status, status_color = review_status(pull)
             ci, ci_color = ci_status(checks.get(pull["number"], []))
             conflicts, conflicts_color = conflict_status(pull)
@@ -313,6 +346,12 @@ def main(argv: list[str] | None = None) -> int:
                 label = f"{count} unresolved"
                 comment = f"└─ {styled(label, RED)}"
                 print(f"{comment}: {url}" if url else comment)
+            if args.agent_verbose:
+                print_agent_details(
+                    pull,
+                    reasons,
+                    checks.get(pull["number"], []),
+                )
         print()
     return 0
 

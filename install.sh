@@ -37,6 +37,29 @@ link_agents_md() {
 
 link_agents_md
 
+link_skills() {
+    local script_dir skill_dir skill_name agent_skills_dir skill_link
+    script_dir=$(dirname "$(readlink -f "$0")")
+
+    mkdir -p "$HOME/.codex/skills" "$HOME/.claude/skills"
+
+    for skill_dir in "$script_dir"/skills/*; do
+        [ -d "$skill_dir" ] || continue
+
+        skill_name=$(basename "$skill_dir")
+        for agent_skills_dir in "$HOME/.codex/skills" "$HOME/.claude/skills"; do
+            skill_link="$agent_skills_dir/$skill_name"
+            if [ -e "$skill_link" ] && [ ! -L "$skill_link" ]; then
+                echo "Skipping $skill_link because it is not a symlink."
+                continue
+            fi
+            ln -sfn "$skill_dir" "$skill_link"
+        done
+    done
+}
+
+link_skills
+
 link_nvim() {
     script_dir=$(dirname "$(readlink -f "$0")")
 
