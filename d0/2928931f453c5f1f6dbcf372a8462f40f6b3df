@@ -1,0 +1,19 @@
+skills/component-scrub/SKILL.md
+  s_408c5a7c4a2961::t_8bfc7c5aa35c19 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "d02928931f453c5f1f6dbcf372a8462f40f6b3df",
+  "prompts": {},
+  "sessions": {
+    "s_408c5a7c4a2961": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d4f4-cec3-7f63-bf1a-0ddb50d13cb3",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
