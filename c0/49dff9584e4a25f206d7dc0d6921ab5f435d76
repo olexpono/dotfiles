@@ -1,0 +1,31 @@
+.local/bin/pr-status.py
+  s_73059aa9f613cf::t_dc468e1c474d33 10,34-36,260-265,269-288,320-326,328-329,331,349-354
+install.sh
+  s_4cbdf46a878fbf::t_25bde5d93283a3 40-62
+skills/pr-follow-up/SKILL.md
+  s_73059aa9f613cf::t_85c7e3bcd49eb9 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "c049dff9584e4a25f206d7dc0d6921ab5f435d76",
+  "prompts": {},
+  "sessions": {
+    "s_4cbdf46a878fbf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cee4-9b46-7930-aac1-a88643af1813",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    },
+    "s_73059aa9f613cf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d139-fcec-7b82-b473-ab5aaea4628e",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
