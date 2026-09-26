@@ -30,21 +30,29 @@ config.window_padding = {
 }
 
 -- Main font is swappable at runtime via the keybindings below.
--- wezterm.GLOBAL survives config reloads (but not a wezterm restart, so
--- launching wezterm always starts you back on 'Native').
-local main_font = wezterm.GLOBAL.main_font or 'Native'
+local FALLBACKS = { 'Menlo', 'Noto Color Emoji' }
 
-config.font = wezterm.font_with_fallback {
-  main_font,
-  'Menlo',
-  'Noto Color Emoji',
-}
+local function font_stack(family)
+  local stack = { family }
+  for _, f in ipairs(FALLBACKS) do
+    table.insert(stack, f)
+  end
+  return wezterm.font_with_fallback(stack)
+end
 
--- Swap the main font and reload so the change takes effect immediately.
+config.font = font_stack 'Native'
+
+-- Swap the main font for the focused window. set_config_overrides applies
+-- immediately, so there's no config reload involved -- which matters because
+-- action_callback handlers are named positionally (user-defined-0, -1, ...)
+-- from the order they're created during config evaluation. Reloading
+-- re-evaluates the file and re-derives those names, breaking the bindings
+-- already stored in the key table.
 local function swap_font(family)
-  return wezterm.action_callback(function(window, pane)
-    wezterm.GLOBAL.main_font = family
-    window:perform_action(wezterm.action.ReloadConfiguration, pane)
+  return wezterm.action_callback(function(window, _pane)
+    local overrides = window:get_config_overrides() or {}
+    overrides.font = font_stack(family)
+    window:set_config_overrides(overrides)
     window:toast_notification('wezterm', 'Main font: ' .. family, nil, 2000)
   end)
 end
@@ -52,21 +60,12 @@ end
 -- Ctrl-Cmd-Shift-9 -> Anoxia, Ctrl-Cmd-Shift-8 -> Native.
 -- Each is bound twice: depending on keyboard layout handling wezterm may
 -- report the shifted character ('(' / '*') instead of the digit.
-local FONT_KEYS = {
-  { keys = { '9', '(' }, family = 'Anoxia' },
-  { keys = { '8', '*' }, family = 'Native' },
+config.keys = {
+  { key = '9', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Anoxia' },
+  { key = '(', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Anoxia' },
+  { key = '8', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Native' },
+  { key = '*', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Native' },
 }
-
-config.keys = config.keys or {}
-for _, entry in ipairs(FONT_KEYS) do
-  for _, key in ipairs(entry.keys) do
-    table.insert(config.keys, {
-      key = key,
-      mods = 'CTRL|CMD|SHIFT',
-      action = swap_font(entry.family),
-    })
-  end
-end
 
 -- Finally, return the configuration to wezterm:
 return config
