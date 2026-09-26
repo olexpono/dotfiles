@@ -1,9 +1,13 @@
 #!/bin/bash
 
-sudo chsh "$(id -un)" --shell "/usr/bin/zsh"
+# macOS already ships zsh as the default shell, and package installs go
+# through the Brewfile, so these two steps are Linux-only.
+if [ "$(uname)" = "Linux" ]; then
+    sudo chsh "$(id -un)" --shell "/usr/bin/zsh"
 
-if ! command -v nvim &> /dev/null; then
-    sudo apt-get update && sudo apt-get install -y neovim
+    if ! command -v nvim &> /dev/null; then
+        sudo apt-get update && sudo apt-get install -y neovim
+    fi
 fi
 
 create_symlinks() {
@@ -11,7 +15,8 @@ create_symlinks() {
     script_dir=$(dirname "$(readlink -f "$0")")
 
     # Get a list of all files in this directory that start with a dot.
-    files=$(find -maxdepth 1 -type f -name ".*")
+    # .gitignore is this repo's own config, not user config, so skip it.
+    files=$(find "$script_dir" -maxdepth 1 -type f -name ".*" -not -name ".gitignore")
 
     # Create a symbolic link to each file in the home directory.
     for file in $files; do
