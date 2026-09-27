@@ -17,7 +17,7 @@ config.color_scheme = 'OlexTerminal'
 config.hide_tab_bar_if_only_one_tab = true
 
 config.window_frame = {
-  font = wezterm.font { family = 'Native' },
+  font = wezterm.font { family = 'IBM Plex Mono' },
   font_size = 12.5,
 }
 
@@ -40,7 +40,7 @@ local function font_stack(family)
   return wezterm.font_with_fallback(stack)
 end
 
-config.font = font_stack 'Native'
+config.font = font_stack 'IBM Plex Mono'
 
 -- Swap the main font for the focused window. set_config_overrides applies
 -- immediately, so there's no config reload involved -- which matters because
@@ -57,14 +57,14 @@ local function swap_font(family)
   end)
 end
 
--- Ctrl-Cmd-Shift-9 -> Anoxia, Ctrl-Cmd-Shift-8 -> Native.
+-- Ctrl-Cmd-Shift-9 -> Anoxia, Ctrl-Cmd-Shift-8 -> IBM Plex Mono.
 -- Each is bound twice: depending on keyboard layout handling wezterm may
 -- report the shifted character ('(' / '*') instead of the digit.
 config.keys = {
   { key = '9', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Anoxia' },
   { key = '(', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Anoxia' },
-  { key = '8', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Native' },
-  { key = '*', mods = 'CTRL|CMD|SHIFT', action = swap_font 'Native' },
+  { key = '8', mods = 'CTRL|CMD|SHIFT', action = swap_font 'IBM Plex Mono' },
+  { key = '*', mods = 'CTRL|CMD|SHIFT', action = swap_font 'IBM Plex Mono' },
 }
 
 -- Finally, return the configuration to wezterm:
