@@ -24,7 +24,7 @@ unalias alpstat 2>/dev/null
 alpstat() {
   local pkg=@vanta/alpaca-static-analysis
   local root; root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
-  local dir=$root/scripts/alpaca-static-analysis
+  local dir=$root/apps/alpaca-static-analysis
   local site=$dir/site
 
   if [[ ! -d $site ]]; then
