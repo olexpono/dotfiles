@@ -1,0 +1,19 @@
+.codex/config.toml
+  s_ce584fef10e91f::t_05a310463cd4ab 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "e90803b619b904a7342b45aa89093be415e0d5a1",
+  "prompts": {},
+  "sessions": {
+    "s_ce584fef10e91f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "deb66fcd-7ea2-4988-a154-9b297d767fe1",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
