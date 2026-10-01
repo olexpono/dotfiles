@@ -19,6 +19,8 @@ alias wlogs="just dev-watch-logs web"
 alias webdev="just dev-start-web"
 alias webz="just dev-web-staging"
 alias sbook="just dev-storybook"
+alias cx="codex --approve-for-me"
+alias ffs="codex --approve-for-me"
 
 unalias alpstat 2>/dev/null
 alpstat() {
