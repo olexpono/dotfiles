@@ -113,6 +113,30 @@ gb() {
   )
 }
 
+swib() {
+  emulate -L zsh
+
+  if (( $# != 1 )); then
+    print -u2 "usage: swib <branch>"
+    return 1
+  fi
+
+  git rev-parse --is-inside-work-tree &>/dev/null || {
+    print -u2 "swib: not a git repo"
+    return 1
+  }
+
+  local branch=${1#refs/heads/}
+  local worktree_path
+  worktree_path=$(git for-each-ref --format='%(worktreepath)' "refs/heads/$branch") || return 1
+
+  if [[ -n $worktree_path ]]; then
+    builtin cd -- "$worktree_path"
+  else
+    git switch "$branch"
+  fi
+}
+
 function rootcommit() {
   git log -1 &> /dev/null
   if [ $? -eq 0 ];
