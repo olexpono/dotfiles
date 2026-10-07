@@ -1,0 +1,19 @@
+personal.zsh
+  s_0bd74a50f13405::t_32ab7fb292e33d 116-139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "dcf5bb297a0e213022ff944fd4d0a75e781c5467",
+  "prompts": {},
+  "sessions": {
+    "s_0bd74a50f13405": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a116ed-8483-7561-83b1-384191644069",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
