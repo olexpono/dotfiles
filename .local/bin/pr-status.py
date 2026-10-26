@@ -6,6 +6,7 @@ Categories:
   [2] Blocked     — not draft, but checks failing/pending and/or review missing
   [3] Draft clean — draft with no unresolved code comments
   [4] Draft w/ comments — draft with unresolved code comments
+  [5] Do not merge — title contains "DO NOT MERGE"
 
 Usage: pr-status.py [branch-prefix] [--repo OWNER/NAME] [--author LOGIN] [-vv]
 """
@@ -152,6 +153,9 @@ def thread_url(thread: dict) -> str | None:
 
 def categorize(pull: dict, checks: list[dict]) -> tuple[int, list[str]]:
     """Return the bucket number and the human-readable reasons for it."""
+    if "DO NOT MERGE" in pull["title"]:
+        return 5, []
+
     if pull["isDraft"]:
         threads = open_threads(pull)
         if not threads:
@@ -190,6 +194,7 @@ TITLES = {
     2: "[2] Open — checks failing/pending and/or review missing",
     3: "[3] Draft — no open code comments",
     4: "[4] Draft — has open code comments",
+    5: "[5] DO NOT MERGE",
 }
 
 RESET = "\033[0m"
@@ -304,15 +309,22 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    resolve_mergeable(repo, pulls)
+    active_pulls = [p for p in pulls if "DO NOT MERGE" not in p["title"]]
+    resolve_mergeable(repo, active_pulls)
 
-    needs_checks = [p["number"] for p in pulls]
+    needs_checks = [p["number"] for p in active_pulls]
     with ThreadPoolExecutor(max_workers=8) as pool:
         checks = dict(
             zip(needs_checks, pool.map(lambda n: fetch_checks(repo, n), needs_checks))
         )
 
-    buckets: dict[int, list[tuple[dict, list[str]]]] = {1: [], 2: [], 3: [], 4: []}
+    buckets: dict[int, list[tuple[dict, list[str]]]] = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+    }
     for pull in pulls:
         bucket, reasons = categorize(pull, checks.get(pull["number"], []))
         buckets[bucket].append((pull, reasons))
@@ -322,19 +334,22 @@ def main(argv: list[str] | None = None) -> int:
             f"{len(pulls)} open PR(s) in {repo} "
             f"on branches starting with '{args.prefix}'\n"
         )
-    visible_buckets = (2, 3) if args.agent_verbose else (1, 2, 3, 4)
+    visible_buckets = (2, 3) if args.agent_verbose else (1, 2, 3, 4, 5)
     for bucket in visible_buckets:
         entries = buckets[bucket]
         if args.agent_verbose:
             entries = sorted(entries, key=lambda entry: entry[0]["updatedAt"])
         print(f"{TITLES[bucket]} — {len(entries)}")
         for pull, reasons in entries:
+            print(f"→ {styled_pr_url(pull)} {pull['title']}")
+            if bucket == 5:
+                continue
+
             status, status_color = review_status(pull)
             ci, ci_color = ci_status(checks.get(pull["number"], []))
             conflicts, conflicts_color = conflict_status(pull)
             threads = open_threads(pull)
             status_branch = "├─" if threads else "└─"
-            print(f"→ {styled_pr_url(pull)} {pull['title']}")
             print(
                 f"{status_branch} {styled(status, status_color)} · "
                 f"{styled(ci, ci_color)} · "
