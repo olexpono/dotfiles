@@ -5,6 +5,7 @@ export BRANCH_PREFIX=olex
 
 alias cl="claude --permission-mode=auto"
 alias bop="python3 $DOTFILES_DIR/.local/bin/pr-status.py"
+alias syncmovies="rclone copy whatbox:files movies: --include '*.mkv' -P"
 
 alias xcommit="git commit --no-gpg-sign"
 alias branchpurge="git branch --merged | grep -v \"\*\" | xargs -n 1 git branch -d"
