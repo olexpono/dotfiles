@@ -1,0 +1,19 @@
+personal.zsh
+  s_3bd6717e7cc65b::t_ab8bd81731e68e 27-28,30-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "83edeba554001ef72412bf4361b6ea01b9ec7788",
+  "prompts": {},
+  "sessions": {
+    "s_3bd6717e7cc65b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4c6685a7-f787-437a-89f5-949741336858",
+        "model": "unknown"
+      },
+      "human_author": "Olex Ponomarenko <olex.pono@gmail.com>"
+    }
+  }
+}
