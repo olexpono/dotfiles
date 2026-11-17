@@ -28,7 +28,7 @@ mux() {
     # (socket named dev-* or stratus-*). Only that outer layer may be nested into.
     if [ -n "$TMUX" ]; then
         if [[ "${${TMUX%%,*}:t}" != (dev|stratus)-* ]]; then
-            echo "Already inside a tmux session"
+            echo "Already inside a \e[33mmux\e[0m session"
             return 0
         fi
         local TMUX=  # unset for nested start; scoped to this function
