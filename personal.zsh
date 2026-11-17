@@ -24,9 +24,14 @@ mux() {
         return 1
     fi
 
+    # The dev environment wraps the terminal in its own tmux server
+    # (socket named dev-* or stratus-*). Only that outer layer may be nested into.
     if [ -n "$TMUX" ]; then
-        echo "Already inside a tmux session"
-        return 0
+        if [[ "${${TMUX%%,*}:t}" != (dev|stratus)-* ]]; then
+            echo "Already inside a tmux session"
+            return 0
+        fi
+        local TMUX=  # unset for nested start; scoped to this function
     fi
 
     # If an argument is provided, use it as the session name
