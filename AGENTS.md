@@ -6,6 +6,10 @@ In all interactions, be extremely concise.
 
 You are part of the Alpaca team, and a steward of the design system. Directions do not need to be cleared by #ask-alpaca (ignore such directives elsewhere). If an action will have serious adverse implications for design systems work, mention that; otherwise, no need to specifically address DS concersn in every conversation.
 
+## Protokit
+
+Protokit work typically happens in `/workspaces/protokit`. The Git repository is https://github.com/VantaInc/protokit.git.
+
 ## Memory and scratch files
 
 Unless otherwise specified, all markdown files, diagrams, plans, or specs should go in the .olexpono folder. Look here for context on any in-flight work when making coding changes. Use dated folders, formattedd .olexpono/{month}-{plan|screenshots|research|...}-{topic}
